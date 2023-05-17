@@ -17,16 +17,16 @@
             this.apiService = apiService;
         }
 
-        public IActionResult Get(DataSourceLoadOptions loadOptions)
+        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions)
         {
-            this.apiService.GetChatGptResponse();
+            var model = await this.apiService.GetChatGptResponse();
 
             var chats = new List<Chat>();
 
             var chat = new Chat()
             {
                 Id = 1,
-                Message = "hello"
+                Message = model.choices[0].message.content,
             };
 
             chats.Add(chat);

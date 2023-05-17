@@ -2,9 +2,12 @@
 {
     using System.Diagnostics.Metrics;
     using System.Net.Http.Headers;
+    using System.Net.Mime;
+    using System.Reflection.PortableExecutable;
     using System.Runtime.CompilerServices;
-
+    using System.Text;
     using ChatGPT_UI.Models;
+    using Newtonsoft.Json;
 
     public class ApiService
     {
@@ -15,21 +18,49 @@
             this.httpClientFactory = httpClientFactory;
         }
 
-        public async Task<Chat> GetChatGptResponse()
+        public ChatGPTResponse DecodeChatGptResponse(string body)
+        {
+            var chatGTPResponse = JsonConvert.DeserializeObject<ChatGPTResponse>(body);
+            
+            return chatGTPResponse;
+        }
+
+        public async Task<ChatGPTResponse> GetChatGptResponse()
         {
             var client = httpClientFactory.CreateClient();
+            var model = new ChatGPTResponse();
+            var body = "";
 
-            client.DefaultRequestHeaders
-                .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri("https://openai80.p.rapidapi.com/chat/completions"),
+                Headers =
+                {
+                    { "X-RapidAPI-Key", "0fadb49b35msh730b53ec9cd84b3p13ae59jsn3256bf1764cf" },
+                    { "X-RapidAPI-Host", "openai80.p.rapidapi.com" },
+                },
+                Content = new StringContent
+                    ("{\n \"model\": \"gpt-3.5-turbo\"," +
+                     " \n  \"messages\":" +
+                     " [\n{ \n \"role\": \"user\"," +
+                     "       \n \"content\": \"Hello\"\n}\n]\n}"
+                    )
+                    {
+                        Headers = {ContentType = new MediaTypeHeaderValue("application/json")}
+                    }
+            };
 
-            var response = client
-            .GetAsync(string
-                .Format("http://api.weatherapi.com/v1/forecast.json?key=71de2c37ead844df82261931231404&q=england&days=3&aqi=no&alerts=no"))
-                .Result;
+            using (var response = await client.SendAsync(request))
+            {
+	            response.EnsureSuccessStatusCode();
+	            body = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(body);
+            }
 
-            var responseString = await response.Content.ReadAsStringAsync();
+            model = DecodeChatGptResponse(body);
 
-            return null;
+            return model;
         }
     }
 }
