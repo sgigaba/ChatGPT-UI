@@ -25,7 +25,7 @@
             return chatGTPResponse;
         }
 
-        public async Task<ChatGPTResponse> GetChatGptResponse()
+        public async Task<ChatGPTResponse> GetChatGptResponse(string prompt)
         {
             var client = httpClientFactory.CreateClient();
             var model = new ChatGPTResponse();
@@ -42,7 +42,7 @@
                 },
                 Content = new StringContent
                     ("{\n \"model\": \"gpt-3.5-turbo\"," +
-                     " \n  \"messages\":" +
+                     " \n  \""+ prompt + "\":" +
                      " [\n{ \n \"role\": \"user\"," +
                      "       \n \"content\": \"Hello\"\n}\n]\n}"
                     )

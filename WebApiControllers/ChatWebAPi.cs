@@ -17,9 +17,10 @@
             this.apiService = apiService;
         }
 
-        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions)
+        [HttpGet]
+        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, string data)
         {
-            var model = await this.apiService.GetChatGptResponse();
+            var model = await this.apiService.GetChatGptResponse(data);
 
             var chats = new List<Chat>();
 

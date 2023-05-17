@@ -2,7 +2,7 @@
 
 <h2>Home</h2>
 
-@(Html.DevExtreme().DataGrid<Chat>()
+@*@(Html.DevExtreme().DataGrid<Chat>()
     .ShowBorders(true)
     .DataSource(d => d.Mvc()
         .Controller("ChatWebApi")
@@ -18,3 +18,34 @@
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
 )
+*@
+<div class="left-content">
+
+    @(Html.DevExtreme().TextArea()
+        .ID("PromptBox")
+        .Height(90)
+        .OnValueChanged("textArea_valueChanged") 
+    )
+</div>
+
+@(
+Html.DevExtreme().Form<Chat>()
+        .ID("form")
+        .ColCount(2)
+        .FormData(Model)
+        .LabelMode(FormLabelMode.Floating)
+        .LabelLocation(FormLabelLocation.Left)
+        .MinColWidth(300)
+        .ReadOnly(true)
+        .ShowColonAfterLabel(true)
+)
+
+@*<script> 
+
+    function textArea_valueChanged(data) {
+        $("#read-only-textarea").dxTextArea("instance").option("value", data.value);
+    }
+
+</script>*@
+
+<script src="~/js/Pages/Chat.js"></script>
