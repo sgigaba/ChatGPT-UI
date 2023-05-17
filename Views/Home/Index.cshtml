@@ -1,37 +1,11 @@
 @using ChatGPT_UI.Models;
 
-<h2>Home</h2>
-
-@*@(Html.DevExtreme().DataGrid<Chat>()
-    .ShowBorders(true)
-    .DataSource(d => d.Mvc()
-        .Controller("ChatWebApi")
-        .LoadAction("Get")
-        .Key("Id"))
-    .Columns(columns => {
-        columns.AddFor(m => m.Message);
-    })
-    .Paging(p => p.PageSize(10))
-    .FilterRow(f => f.Visible(true))
-    .HeaderFilter(f => f.Visible(true))
-    .GroupPanel(p => p.Visible(true))
-    .Grouping(g => g.AutoExpandAll(false))
-    .RemoteOperations(true)
-)
-*@
-<div class="left-content">
-
-    @(Html.DevExtreme().TextArea()
-        .ID("PromptBox")
-        .Height(90)
-        .OnValueChanged("textArea_valueChanged") 
-    )
-</div>
+<h2>ChatGPT AI</h2>
 
 @(
 Html.DevExtreme().Form<Chat>()
         .ID("form")
-        .ColCount(2)
+        .ColCount(1)
         .FormData(Model)
         .LabelMode(FormLabelMode.Floating)
         .LabelLocation(FormLabelLocation.Left)
@@ -40,12 +14,15 @@ Html.DevExtreme().Form<Chat>()
         .ShowColonAfterLabel(true)
 )
 
-@*<script> 
+<br>
 
-    function textArea_valueChanged(data) {
-        $("#read-only-textarea").dxTextArea("instance").option("value", data.value);
-    }
-
-</script>*@
+<div class="left-content">
+    @(Html.DevExtreme().TextArea()
+        .ID("PromptBox")
+        .Height(45)
+        .OnValueChanged("textArea_valueChanged")
+        .Placeholder("Send a message.")
+     )
+</div>
 
 <script src="~/js/Pages/Chat.js"></script>

@@ -37,7 +37,7 @@
                 RequestUri = new Uri("https://openai80.p.rapidapi.com/chat/completions"),
                 Headers =
                 {
-                    { "X-RapidAPI-Key", "0fadb49b35msh730b53ec9cd84b3p13ae59jsn3256bf1764cf" },
+                    { "X-RapidAPI-Key", "528a6b647bmsh85c5e35f1d7746ep163566jsn7e1de44f25e9" },
                     { "X-RapidAPI-Host", "openai80.p.rapidapi.com" },
                 },
                 Content = new StringContent
@@ -53,8 +53,33 @@
 
             using (var response = await client.SendAsync(request))
             {
-	            response.EnsureSuccessStatusCode();
-	            body = await response.Content.ReadAsStringAsync();
+                if (response.ReasonPhrase == "Too Many Requests")  
+                {
+                    var choices = new List<Choices>();
+
+                    var choice = new Choices()
+                    {
+                        message = new Message()
+                        {
+                            content = "ChatGPT has too many requests at the moment. Please try again soon"
+                        }
+                    };
+
+                    choices.Add(choice);
+
+                    model = new ChatGPTResponse()
+                    {
+                        id = "null",
+                        choices = choices
+
+                    };
+
+                    return model;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                body = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(body);
             }
 
