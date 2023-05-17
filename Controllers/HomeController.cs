@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
 namespace ChatGPT_UI.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -13,9 +9,5 @@ namespace ChatGPT_UI.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() {
-            return View();
-        }
     }
 }
