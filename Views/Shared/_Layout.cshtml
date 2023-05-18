@@ -73,9 +73,12 @@
 
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Text" asp-action="Index">Text Editor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="Index">Chat Bot</a>
+                    </li>
                 </ul>
             </div>
         </div>

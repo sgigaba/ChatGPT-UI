@@ -7,31 +7,39 @@
 
     using ChatGPT_UI.Models;
     using ChatGPT_UI.Services;
+    using ChatGPT_UI.Interface;
 
     public class ChatWebApi : Controller
     {
-        private readonly ApiService apiService;
+        /*private readonly IApiService apiService;*/
+        private readonly IChatService chatService;
+        private readonly ContextService contextService;
 
-        public ChatWebApi(ApiService apiService) 
+        public ChatWebApi(ContextService contextService, IChatService chatService)
         {
-            this.apiService = apiService;
+           // this.apiService = apiService;
+            this.contextService = contextService;
+            this.chatService = chatService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, string data)
+        public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, string data, string AIModel)
         {
-            var model = await this.apiService.GetChatGptResponse(data);
+            var chatGPTResponse = new ChatGPTResponse();
+            var model = await this.chatService.GetAPIResponse(data, AIModel);
+           // var model = this.apiService.DummyRequest();
+            var chats = new List<Chats>();
 
-            var chats = new List<Chat>();
-
-            var chat = new Chat()
+            var chat = new Chats()
             {
                 Id = 1,
                 Message = model.choices[0].message.content,
+                Prompt = data
             };
 
             chats.Add(chat);
-
+            contextService.SaveChat(chat);
+            
             return Json(DataSourceLoader.Load(chats, loadOptions));
         }
     }

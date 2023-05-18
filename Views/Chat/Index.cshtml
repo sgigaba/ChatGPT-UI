@@ -1,16 +1,18 @@
-<h1> Play around with some popular API's!
-</h1>
-
-@*@using ChatGPT_UI.Models;
+﻿@using ChatGPT_UI.Models;
 
 <h2>ChatGPT AI</h2>
 
 @(
-Html.DevExtreme().Form<Chat>()
+Html.DevExtreme().Form<Chats>()
         .ID("form")
-        .Items(_ => {
+        .Items(_ =>
+        {
             _.AddSimpleFor(_ => _.Prompt);
-            _.AddSimpleFor(_ => _.Message);
+            _.AddSimpleFor(_ => _.Message)
+                .ColSpan(2)
+                .Editor(e => e
+                    .TextArea()
+                    .Height(150));
         })
         .ColCount(1)
         .FormData(Model)
@@ -29,8 +31,7 @@ Html.DevExtreme().Form<Chat>()
         .Height(45)
         .OnValueChanged("textArea_valueChanged")
         .Placeholder("Send a message.")
-     )
+        )
 </div>
 
-<script src="~/js/Pages/Chat.js"></script>*@
-
+<script src="~/js/Pages/Chat.js"></script>

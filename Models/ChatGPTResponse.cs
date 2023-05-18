@@ -9,7 +9,10 @@
 
     public class Choices
     {
-        public Message message { get; set; }
+        public Message? message { get; set; }
+
+        public string? text { get; set; }
+
     }
 
     public class Message

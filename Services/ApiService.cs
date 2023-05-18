@@ -6,10 +6,12 @@
     using System.Reflection.PortableExecutable;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using ChatGPT_UI.Interface;
     using ChatGPT_UI.Models;
     using Newtonsoft.Json;
 
-    public class ApiService
+    public class ApiService<T> : IApiService<T> 
+        where T : class
     {
         private readonly IHttpClientFactory httpClientFactory;
 
@@ -18,11 +20,11 @@
             this.httpClientFactory = httpClientFactory;
         }
 
-        public ChatGPTResponse DecodeChatGptResponse(string body)
+        public ChatGPTResponse DecodeAPIReponse(string body)
         {
-            var chatGTPResponse = JsonConvert.DeserializeObject<ChatGPTResponse>(body);
+            var model = JsonConvert.DeserializeObject<ChatGPTResponse>(body);
             
-            return chatGTPResponse;
+            return model;
         }
 
         public ChatGPTResponse HandleBadRequest()
@@ -49,32 +51,94 @@
             return model;
         }
 
+        public ChatGPTResponse DummyRequest()
+        {
+            var choices = new List<Choices>();
 
-        public async Task<ChatGPTResponse> GetChatGptResponse(string prompt)
+            var choice = new Choices()
+            {
+                message = new Message()
+                {
+                    content = "This data is from the dummy model :D"
+                }
+            };
+
+            choices.Add(choice);
+
+            var model = new ChatGPTResponse()
+            {
+                id = "null",
+                choices = choices
+
+            };
+
+            return model;
+        }
+
+        public StringContent GetContentString(string prompt, string AImodel)
+        {
+            var content = new StringContent("");
+
+            if (AImodel == "text-davinci-003")
+            {
+                content = new StringContent("{\n" +
+                    "\"model\": \"text-davinci-003\",\n" +
+                    "\"prompt\": \"Say this is a test\",\n" +
+                    "\"max_tokens\": 7,\n" +
+                    "\"temprature\": 0,\n" +
+                    "\"top_p\": 1,\n" +
+                    "\"n\": 1,\n" +
+                    "\"stream\": false,\n" +
+                    "\"logprobs\":null,\n" +
+                    "\"stop\": \"\"\n]");
+            }
+            else
+            {
+                content = new StringContent("{\n" +
+               "\"model\":\"" + AImodel + "\", \n" +
+               "\"messages\": [\n" +
+               "{\n" +
+               "\"role\": \"user\",\n" +
+               "\"content\": \"" + prompt + "\"\n" +
+               "}\n" +
+               "]\n" +
+               "}");
+            }
+
+            return content;
+        }
+
+        public async Task<ChatGPTResponse> GetAPIResponse(string prompt, string AImodel)
         {
             var client = httpClientFactory.CreateClient();
-            var model = new ChatGPTResponse();
             var body = "";
+            var model = new ChatGPTResponse();
+
+
+            var content = GetContentString(prompt, AImodel);
+            if (AImodel == "text-davinci-003")
+            {
+
+            }
+            var uri = "https://api.openai.com/v1/completions";
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("https://api.openai.com/v1/chat/completions"),
+                RequestUri = new Uri(uri),
                 Headers =
                 {
-                    { "Authorization", "Bearer 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" },
+                    { "Authorization", "Bearer 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" },
                 },
-                Content = new StringContent
-                    ("{\n \"model\": \"gpt-3.5-turbo\"," +
-                     " \n  \""+ prompt + "\":" +
-                     " [\n{ \n \"role\": \"user\"," +
-                     "       \n \"content\": \"Hello\"\n}\n]\n}"
-                    )
-                    {
-                        Headers = {ContentType = new MediaTypeHeaderValue("application/json")}
-                    }
+
+                Content = new StringContent("")
+                {
+                    Headers = {ContentType = new MediaTypeHeaderValue("application/json")}
+                }
             };
 
+            request.Content = content;
+         
             using (var response = await client.SendAsync(request))
             {
                 if (response.ReasonPhrase == "Too Many Requests")  
@@ -86,9 +150,11 @@
                 body = await response.Content.ReadAsStringAsync();
             }
 
-            model = DecodeChatGptResponse(body);
+            model = DecodeAPIReponse(body);
 
             return model;
         }
     }
 }
+
+

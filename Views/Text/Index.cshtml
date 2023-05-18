@@ -1,0 +1,37 @@
+﻿@using ChatGPT_UI.Models;
+
+<h2>Texts AI</h2>
+
+<div class="left-content">
+    @(Html.DevExtreme().TextArea()
+        .ID("TextInputBox")
+        .Height(100)
+        .Placeholder("Add some text and select one of the options")
+        )
+</div>
+
+<br />
+
+<div class="left-content">
+    @(Html.DevExtreme().SelectBox()
+        .ID("search-box")
+        .DataSource(new[] {
+            "Spell Check",
+            "Grammar Check",
+            "Passage Restructuring"
+        })
+        .Placeholder("Select one of the options to perform on the text above")
+        .OnValueChanged("ReturnAIResponse")
+        .SearchEnabled(true)
+    )
+</div>
+<br>
+<br />
+<div class="left-content">
+    @(Html.DevExtreme().TextArea()
+        .ID("ResponseTextBox")
+        .Height(100)
+        )
+</div>
+
+<script src="~/js/Pages/Text.js"></script>

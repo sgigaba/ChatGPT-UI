@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 using ChatGPT_UI;
 using ChatGPT_UI.Services;
+using ChatGPT_UI.Interface;
 
 internal class Program
 {
@@ -23,7 +24,11 @@ internal class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddMvc();
-        builder.Services.AddScoped<ApiService>();
+        builder.Services.AddScoped<IChatService,ChatService>();
+        builder.Services.AddScoped<ITextService,TextService>();
+
+        /*builder.Services.AddScoped<IApiService,ApiService>();*/
+        builder.Services.AddScoped<ContextService>();
 
         var app = builder.Build();
 
@@ -45,6 +50,10 @@ internal class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=ChatWebAPI}/{action=Index}/{id?}");
+
+/*        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=ChatWebAPI}/{action=Index}/{id?}");*/
 
         app.Run();
     }
