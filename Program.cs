@@ -1,7 +1,9 @@
-using ChatGPT_UI;
-using ChatGPT_UI.Services;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
+using ChatGPT_UI;
+using ChatGPT_UI.Services;
 
 internal class Program
 {

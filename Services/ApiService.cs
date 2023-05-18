@@ -25,6 +25,31 @@
             return chatGTPResponse;
         }
 
+        public ChatGPTResponse HandleBadRequest()
+        {
+            var choices = new List<Choices>();
+
+            var choice = new Choices()
+            {
+                message = new Message()
+                {
+                    content = "ChatGPT has too many requests at the moment. Please try again soon"
+                }
+            };
+
+            choices.Add(choice);
+
+            var model = new ChatGPTResponse()
+            {
+                id = "null",
+                choices = choices
+
+            };
+
+            return model;
+        }
+
+
         public async Task<ChatGPTResponse> GetChatGptResponse(string prompt)
         {
             var client = httpClientFactory.CreateClient();
@@ -34,11 +59,10 @@
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri("https://openai80.p.rapidapi.com/chat/completions"),
+                RequestUri = new Uri("https://api.openai.com/v1/chat/completions"),
                 Headers =
                 {
-                    { "X-RapidAPI-Key", "528a6b647bmsh85c5e35f1d7746ep163566jsn7e1de44f25e9" },
-                    { "X-RapidAPI-Host", "openai80.p.rapidapi.com" },
+                    { "Authorization", "Bearer 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" },
                 },
                 Content = new StringContent
                     ("{\n \"model\": \"gpt-3.5-turbo\"," +
@@ -55,32 +79,11 @@
             {
                 if (response.ReasonPhrase == "Too Many Requests")  
                 {
-                    var choices = new List<Choices>();
-
-                    var choice = new Choices()
-                    {
-                        message = new Message()
-                        {
-                            content = "ChatGPT has too many requests at the moment. Please try again soon"
-                        }
-                    };
-
-                    choices.Add(choice);
-
-                    model = new ChatGPTResponse()
-                    {
-                        id = "null",
-                        choices = choices
-
-                    };
-
-                    return model;
+                    return(HandleBadRequest());
                 }
 
                 response.EnsureSuccessStatusCode();
-
                 body = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(body);
             }
 
             model = DecodeChatGptResponse(body);
