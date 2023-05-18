@@ -26,6 +26,7 @@ internal class Program
         builder.Services.AddMvc();
         builder.Services.AddScoped<IChatService,ChatService>();
         builder.Services.AddScoped<ITextService,TextService>();
+        builder.Services.AddScoped<IImageService,ImagesService>();
 
         /*builder.Services.AddScoped<IApiService,ApiService>();*/
         builder.Services.AddScoped<ContextService>();

@@ -25,7 +25,7 @@ namespace ChatGPT_UI.Services
                 RequestUri = new Uri("https://api.openai.com/v1/completions"),
                 Headers =
                 {
-                    { "Authorization", "Bearer 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" },
+                    { "Authorization", "Bearer" },
                 },
 
                 Content = new StringContent("{\n" +
