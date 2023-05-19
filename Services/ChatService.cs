@@ -5,7 +5,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
 
-    public class ChatService : ApiService<Chats>, IChatService
+    public class ChatService : ApiService<Chats>, IChatApiService
     {
         private readonly IHttpClientFactory httpClientFactory;
 
@@ -27,7 +27,7 @@
                 RequestUri = new Uri("https://api.openai.com/v1/chat/completions"),
                 Headers =
                 {
-                    { "Authorization", "Bearer" },
+                    { "Authorization", "Bearer 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" },
                 },
 
                 Content = new StringContent("{\n" +

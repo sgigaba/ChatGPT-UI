@@ -10,13 +10,20 @@
 
     public class TextWebApi : Controller
     {
-        private readonly ITextService textApiService;
-        private readonly ContextService contextService;
+        private readonly ITextApiService textApiService;
+        private readonly ITextContextService textContextService;
 
-        public TextWebApi(ITextService textApiService, ContextService contextService)
+        public TextWebApi(ITextApiService textApiService, ITextContextService textContextService)
         {
             this.textApiService = textApiService;
-            this.contextService = contextService;
+            this.textContextService = textContextService;
+        }
+
+        public IActionResult GetTextHistory(DataSourceLoadOptions loadOptions, string data, string AIModel)
+        {
+            var histories = textContextService.FetchHistory();
+
+            return Json(DataSourceLoader.Load(histories, loadOptions));
         }
 
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, string data, string AIModel)
@@ -33,8 +40,14 @@
                 Prompt = data
             };
 
+            var textHistory = new TextHistory()
+            {
+                Content = model.choices[0].text,
+                Prompt = data
+            };
+
             texts.Add(text);
-           // contextService.SaveChat(text);
+            textContextService.SaveHistory(textHistory);
 
             return Json(DataSourceLoader.Load(texts, loadOptions));
         }

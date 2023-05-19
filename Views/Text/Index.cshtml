@@ -1,18 +1,19 @@
 ﻿@using ChatGPT_UI.Models;
 
-<h2>Texts AI</h2>
+<h3> Text Editor using OpenAI's text-davinci-003 model!</h3>
 
-<div class="left-content">
+<br>
+<br>
+<div class="prompt">
+
     @(Html.DevExtreme().TextArea()
         .ID("TextInputBox")
         .Height(100)
         .Placeholder("Add some text and select one of the options")
-        )
-</div>
+      )
 
-<br />
+    <br />
 
-<div class="left-content">
     @(Html.DevExtreme().SelectBox()
         .ID("search-box")
         .DataSource(new[] {
@@ -24,14 +25,34 @@
         .OnValueChanged("ReturnAIResponse")
         .SearchEnabled(true)
     )
-</div>
-<br>
-<br />
-<div class="left-content">
+    <br>
+    <br>
+
     @(Html.DevExtreme().TextArea()
         .ID("ResponseTextBox")
         .Height(100)
         )
+</div>
+<div class="history">
+    <h4> Chat History</h4>
+    @(Html.DevExtreme().DataGrid<TextHistory>()
+        .DataSource(d => d.Mvc()
+        .Controller("TextWebApi")
+        .LoadAction("GetTextHistory")
+        .Key("Id")
+        )
+        .RemoteOperations(true)
+        .Columns(columns =>
+        {
+            columns.AddFor(_ => _.Prompt)
+                .GroupIndex(0);
+
+            columns.AddFor(_ => _.Content);
+        })
+        .Grouping(grouping => grouping.AutoExpandAll(true))
+        .GroupPanel(groupPanel => groupPanel.Visible(true))
+        .WordWrapEnabled(true)
+     )
 </div>
 
 <script src="~/js/Pages/Text.js"></script>

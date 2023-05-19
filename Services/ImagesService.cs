@@ -1,10 +1,11 @@
 ﻿using ChatGPT_UI.Interface;
 using ChatGPT_UI.Models;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace ChatGPT_UI.Services
 {
-    public class ImagesService : ApiService<Images>, IImageService
+    public class ImagesService : ApiService<Images>, IImageApiService
     {
         private readonly IHttpClientFactory httpClientFactory;
 
@@ -13,11 +14,18 @@ namespace ChatGPT_UI.Services
             this.httpClientFactory = httpClientFactory;
         }
 
-        public new async Task<ChatGPTResponse> GetAPIResponse(string prompt, string AImodel)
+        public new DallEResponse DecodeDallEReponse(string body)
+        {
+            var model = JsonConvert.DeserializeObject<DallEResponse>(body);
+
+            return model;
+        }
+
+        public new async Task<DallEResponse> GetAPIResponse(string prompt, string AImodel)
         {
             var client = httpClientFactory.CreateClient();
             var body = "";
-            var model = new ChatGPTResponse();
+            var model = new DallEResponse();
 
             var request = new HttpRequestMessage
             {
@@ -25,13 +33,13 @@ namespace ChatGPT_UI.Services
                 RequestUri = new Uri("https://api.openai.com/v1/images/generations"),
                 Headers =
                 {
-                    { "Authorization", "Bearer" },
+                    { "Authorization", "Bearer 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" },
                 },
 
-                Content = new StringContent("\n" +
-                    "\"prompt\": \"A cute baby sea otter\",\n" +
-                    "\n\":1,\n" +
-                    "\"size\": \"1024x1024\"\n" +
+                Content = new StringContent("{\n" +
+                    "\"prompt\": \""+prompt+"\",\n" +
+                    "\"n\": 1,\n" +
+                    "\"size\": \"256x256\"\n" +
                     "}")
                 {
                     Headers = { ContentType = new MediaTypeHeaderValue("application/json") }
@@ -42,14 +50,15 @@ namespace ChatGPT_UI.Services
             {
                 if (response.ReasonPhrase == "Too Many Requests")
                 {
-                    return (HandleBadRequest());
+                    Console.Write(response.Content);
+                   // return (HandleBadRequest());
                 }
 
                 response.EnsureSuccessStatusCode();
                 body = await response.Content.ReadAsStringAsync();
             }
 
-            model = DecodeAPIReponse(body);
+            model = DecodeDallEReponse(body);
 
             return model;
         }

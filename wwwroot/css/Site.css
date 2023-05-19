@@ -1,2 +1,23 @@
 body {
 }
+
+.history {
+    width: 37%;
+    margin-right: 2%;
+    float: left;
+}
+
+.prompt {
+    width: 60%;
+    float: right;
+}
+
+.clearfix {
+    clear: both
+}
+
+.chat-input {
+    position: fixed;
+    bottom: 0;
+    width: 60%;
+}

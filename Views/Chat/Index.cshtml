@@ -1,6 +1,6 @@
 ﻿@using ChatGPT_UI.Models;
 
-<h2>ChatGPT AI</h2>
+<div class="prompt">
 
 @(
 Html.DevExtreme().Form<Chats>()
@@ -12,7 +12,7 @@ Html.DevExtreme().Form<Chats>()
                 .ColSpan(2)
                 .Editor(e => e
                     .TextArea()
-                    .Height(150));
+                    .Height(400));
         })
         .ColCount(1)
         .FormData(Model)
@@ -25,13 +25,36 @@ Html.DevExtreme().Form<Chats>()
 
 <br>
 
-<div class="left-content">
-    @(Html.DevExtreme().TextArea()
-        .ID("PromptBox")
-        .Height(45)
-        .OnValueChanged("textArea_valueChanged")
-        .Placeholder("Send a message.")
-        )
+    <div class="chat-input">
+        @(Html.DevExtreme().TextArea()
+            .ID("PromptBox")
+            .Height(45)
+            .OnValueChanged("textArea_valueChanged")
+            .Placeholder("Send a message.")
+            )
+    </div>
+
 </div>
 
+<div class="history">
+    <h4> Chat History</h4>
+    @(Html.DevExtreme().DataGrid<TextHistory>()
+        .DataSource(d => d.Mvc()
+        .Controller("ChatWebApi")
+        .LoadAction("GetChatHistory")
+        .Key("Id")
+        )
+        .RemoteOperations(true)
+        .Columns(columns =>
+        {
+            columns.AddFor(_ => _.Prompt)
+            .GroupIndex(0);
+
+            columns.AddFor(_ => _.Content);
+        })
+        .Grouping(grouping => grouping.AutoExpandAll(true))
+        .GroupPanel(groupPanel => groupPanel.Visible(true))
+        .WordWrapEnabled(true)
+        )
+</div>
 <script src="~/js/Pages/Chat.js"></script>

@@ -8,21 +8,30 @@
     using ChatGPT_UI.Models;
     using ChatGPT_UI.Services;
     using ChatGPT_UI.Interface;
+    using System;
 
     public class ChatWebApi : Controller
     {
         /*private readonly IApiService apiService;*/
-        private readonly IChatService chatService;
-        private readonly ContextService contextService;
+        private readonly IChatApiService chatService;
+        private readonly IChatContextService chatContextService;
 
-        public ChatWebApi(ContextService contextService, IChatService chatService)
+        public ChatWebApi(IChatContextService contextService, IChatApiService chatService)
         {
            // this.apiService = apiService;
-            this.contextService = contextService;
+            this.chatContextService = contextService;
             this.chatService = chatService;
         }
 
         [HttpGet]
+
+        public IActionResult GetChatHistory(DataSourceLoadOptions loadOptions, string data, string AIModel)
+        {
+            var histories = chatContextService.FetchHistory();
+
+            return Json(DataSourceLoader.Load(histories, loadOptions));
+        }
+
         public async Task<IActionResult> Get(DataSourceLoadOptions loadOptions, string data, string AIModel)
         {
             var chatGPTResponse = new ChatGPTResponse();
@@ -38,7 +47,14 @@
             };
 
             chats.Add(chat);
-            contextService.SaveChat(chat);
+
+            var chatHistory = new ChatHistory()
+            {
+                Content = model.choices[0].message.content,
+                Prompt = data
+            };
+
+            chatContextService.SaveHistory(chatHistory);
             
             return Json(DataSourceLoader.Load(chats, loadOptions));
         }

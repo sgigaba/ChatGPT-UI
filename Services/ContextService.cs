@@ -1,8 +1,12 @@
-﻿using ChatGPT_UI.Models;
+﻿using ChatGPT_UI.Interface;
+using ChatGPT_UI.Models;
+
+using System.Collections.Generic;
 
 namespace ChatGPT_UI.Services
 {
-    public class ContextService
+    public class ContextService<T> : IContextService<T>
+        where T : class
     {
         private readonly ApplicationDbContext context;
 
@@ -11,16 +15,15 @@ namespace ChatGPT_UI.Services
             this.context = context;
         }
 
-        public void SaveChat(Chats model)
+        public void SaveHistory(T model)
         {
-            var ChatHistory = new ChatHistory()
-            {
-                Content = model.Message,
-                Prompt = model.Prompt,
-            };
-
-            context.ChatHistory.Add(ChatHistory);
+            context.Set<T>().Add(model);
             context.SaveChanges();
+        }
+
+        public List<T> FetchHistory()
+        {
+            return this.context.Set<T>().ToList();
         }
     }
 }

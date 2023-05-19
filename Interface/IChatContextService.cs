@@ -2,7 +2,7 @@
 {
     using ChatGPT_UI.Models;
 
-    public interface IImageService : IApiService<Images>
+    public interface IChatContextService : IContextService<ChatHistory>
     {
     }
 }

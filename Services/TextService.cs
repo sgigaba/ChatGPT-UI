@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 
 namespace ChatGPT_UI.Services
 {
-    public class TextService : ApiService<Texts>, ITextService
+    public class TextService : ApiService<Texts>, ITextApiService
     {
         private readonly IHttpClientFactory httpClientFactory;
 
@@ -25,7 +25,7 @@ namespace ChatGPT_UI.Services
                 RequestUri = new Uri("https://api.openai.com/v1/completions"),
                 Headers =
                 {
-                    { "Authorization", "Bearer" },
+                    { "Authorization", "Bearer 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" },
                 },
 
                 Content = new StringContent("{\n" +

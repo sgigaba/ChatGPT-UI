@@ -11,5 +11,9 @@
         }
 
         public DbSet<ChatHistory> ChatHistory { get; set; }
+
+        public DbSet<TextHistory> TextHistory { get; set; }
+
+        public DbSet<ImageHistory> ImageHistory { get; set; }
     }
 }
