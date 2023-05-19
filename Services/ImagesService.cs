@@ -33,13 +33,13 @@ namespace ChatGPT_UI.Services
                 RequestUri = new Uri("https://api.openai.com/v1/images/generations"),
                 Headers =
                 {
-                    { "Authorization", "Bearer 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" },
+                    { "Authorization", "APIKEY" },
                 },
 
                 Content = new StringContent("{\n" +
                     "\"prompt\": \""+prompt+"\",\n" +
                     "\"n\": 1,\n" +
-                    "\"size\": \"256x256\"\n" +
+                    "\"size\": \"1024x1024\"\n" +
                     "}")
                 {
                     Headers = { ContentType = new MediaTypeHeaderValue("application/json") }

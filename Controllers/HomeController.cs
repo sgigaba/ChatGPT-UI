@@ -8,6 +8,5 @@ namespace ChatGPT_UI.Controllers
         {
             return View();
         }
-
     }
 }

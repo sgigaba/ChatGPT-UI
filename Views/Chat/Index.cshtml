@@ -29,15 +29,17 @@ Html.DevExtreme().Form<Chats>()
         @(Html.DevExtreme().TextArea()
             .ID("PromptBox")
             .Height(45)
+            .Width(1000)
             .OnValueChanged("textArea_valueChanged")
             .Placeholder("Send a message.")
             )
+        <button type="button" class="btn btn-primary">Send Prompt </button>
     </div>
 
 </div>
 
 <div class="history">
-    <h4> Chat History</h4>
+    <h4>History</h4>
     @(Html.DevExtreme().DataGrid<TextHistory>()
         .DataSource(d => d.Mvc()
         .Controller("ChatWebApi")

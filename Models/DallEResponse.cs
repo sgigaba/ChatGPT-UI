@@ -6,9 +6,4 @@
 
         public List<Url> data { get; set; }
     }
-
-    public class Url
-    {
-        public string url { get; set; }
-    }
 }

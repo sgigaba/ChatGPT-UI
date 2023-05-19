@@ -1,6 +1,7 @@
 ﻿namespace ChatGPT_UI.Interface
 {
     using System.Collections.Generic;
+
     public interface IContextService<T>
         where T : class
     {

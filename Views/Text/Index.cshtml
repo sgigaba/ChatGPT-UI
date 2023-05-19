@@ -1,7 +1,4 @@
 ﻿@using ChatGPT_UI.Models;
-
-<h3> Text Editor using OpenAI's text-davinci-003 model!</h3>
-
 <br>
 <br>
 <div class="prompt">
@@ -19,7 +16,7 @@
         .DataSource(new[] {
             "Spell Check",
             "Grammar Check",
-            "Passage Restructuring"
+            "Translate into French"
         })
         .Placeholder("Select one of the options to perform on the text above")
         .OnValueChanged("ReturnAIResponse")
@@ -34,7 +31,7 @@
         )
 </div>
 <div class="history">
-    <h4> Chat History</h4>
+    <h4> History</h4>
     @(Html.DevExtreme().DataGrid<TextHistory>()
         .DataSource(d => d.Mvc()
         .Controller("TextWebApi")

@@ -6,19 +6,15 @@
     using Microsoft.AspNetCore.Mvc;
 
     using ChatGPT_UI.Models;
-    using ChatGPT_UI.Services;
     using ChatGPT_UI.Interface;
-    using System;
 
     public class ChatWebApi : Controller
     {
-        /*private readonly IApiService apiService;*/
         private readonly IChatApiService chatService;
         private readonly IChatContextService chatContextService;
 
         public ChatWebApi(IChatContextService contextService, IChatApiService chatService)
         {
-           // this.apiService = apiService;
             this.chatContextService = contextService;
             this.chatService = chatService;
         }
@@ -36,7 +32,6 @@
         {
             var chatGPTResponse = new ChatGPTResponse();
             var model = await this.chatService.GetAPIResponse(data, AIModel);
-           // var model = this.apiService.DummyRequest();
             var chats = new List<Chats>();
 
             var chat = new Chats()

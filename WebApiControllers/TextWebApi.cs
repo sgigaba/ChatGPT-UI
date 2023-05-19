@@ -2,11 +2,11 @@
 {
     using ChatGPT_UI.Interface;
     using ChatGPT_UI.Models;
-    using ChatGPT_UI.Services;
+
+    using Microsoft.AspNetCore.Mvc;
+
     using DevExtreme.AspNet.Data;
     using DevExtreme.AspNet.Mvc;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Xml.Linq;
 
     public class TextWebApi : Controller
     {

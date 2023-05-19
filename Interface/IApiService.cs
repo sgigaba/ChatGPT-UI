@@ -9,8 +9,6 @@
 
         public ChatGPTResponse HandleBadRequest();
 
-/*        public T ReturnDynamicModel(T model);*/
-
         public ChatGPTResponse DummyRequest();
 
         public Task<ChatGPTResponse> GetAPIResponse(string prompt, string AImodel);

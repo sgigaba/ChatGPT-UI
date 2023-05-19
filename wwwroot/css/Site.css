@@ -18,6 +18,24 @@ body {
 
 .chat-input {
     position: fixed;
-    bottom: 0;
+    bottom: 2%;
     width: 60%;
+}
+
+.card_1 {
+    width: 30%;
+    margin-right: 2%;
+    float: left;
+}
+
+.card_2 {
+    width: 30%;
+    margin-right: 2%;
+    float: right;
+}
+
+.card_3 {
+    width: 30%;
+    margin-right: 2%;
+    float: right;
 }

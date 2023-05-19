@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace ChatGPT_UI.Controllers
+﻿namespace ChatGPT_UI.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class ChatController : Controller
     {
         public IActionResult Index()

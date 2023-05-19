@@ -1,9 +1,10 @@
 ﻿namespace ChatGPT_UI.Services
 {
-    using ChatGPT_UI.Interface;
-    using ChatGPT_UI.Models;
     using System.Net.Http;
     using System.Net.Http.Headers;
+
+    using ChatGPT_UI.Interface;
+    using ChatGPT_UI.Models;
 
     public class ChatService : ApiService<Chats>, IChatApiService
     {
@@ -14,6 +15,7 @@
         {
             this.httpClientFactory = httpClientFactory;
         }
+
 
         public new async Task<ChatGPTResponse> GetAPIResponse(string prompt, string AImodel)
         {
@@ -27,7 +29,7 @@
                 RequestUri = new Uri("https://api.openai.com/v1/chat/completions"),
                 Headers =
                 {
-                    { "Authorization", "Bearer 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" },
+                    { "Authorization", "APIKEY" },
                 },
 
                 Content = new StringContent("{\n" +

@@ -6,17 +6,4 @@
 
         public List<Choices> choices { get; set; }
     }
-
-    public class Choices
-    {
-        public Message? message { get; set; }
-
-        public string? text { get; set; }
-
-    }
-
-    public class Message
-    {
-        public string content { get; set; }
-    }
 }

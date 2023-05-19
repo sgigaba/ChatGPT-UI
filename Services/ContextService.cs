@@ -1,10 +1,9 @@
-﻿using ChatGPT_UI.Interface;
-using ChatGPT_UI.Models;
-
-using System.Collections.Generic;
-
-namespace ChatGPT_UI.Services
+﻿namespace ChatGPT_UI.Services
 {
+    using ChatGPT_UI.Interface;
+
+    using System.Collections.Generic;
+
     public class ContextService<T> : IContextService<T>
         where T : class
     {

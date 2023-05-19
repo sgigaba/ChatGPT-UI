@@ -1,36 +1,33 @@
-<h1> Play around with some popular API's!
-</h1>
 
-@*@using ChatGPT_UI.Models;
-
-<h2>ChatGPT AI</h2>
-
-@(
-Html.DevExtreme().Form<Chat>()
-        .ID("form")
-        .Items(_ => {
-            _.AddSimpleFor(_ => _.Prompt);
-            _.AddSimpleFor(_ => _.Message);
-        })
-        .ColCount(1)
-        .FormData(Model)
-        .LabelMode(FormLabelMode.Floating)
-        .LabelLocation(FormLabelLocation.Left)
-        .MinColWidth(300)
-        .ReadOnly(true)
-        .ShowColonAfterLabel(true)
-)
-
-<br>
-
-<div class="left-content">
-    @(Html.DevExtreme().TextArea()
-        .ID("PromptBox")
-        .Height(45)
-        .OnValueChanged("textArea_valueChanged")
-        .Placeholder("Send a message.")
-     )
+<div class="card_1">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="~/ChatGptLogo.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">ChatGPT</h5>
+            <p class="card-text">ChatGPT 3-5 turbo is an advanced language model developed by OpenAI. It is designed to generate human-like text responses and engage in conversational interactions. With a knowledge cutoff in September 2021, it can provide concise answers and assist with various tasks, such as answering questions, generating code snippets, providing explanations, and offering creative writing suggestions.</p>
+            <a class="nav-link" asp-area="" asp-controller="Chat" asp-action="Index">Click here to try it out!</a>
+        </div>
+    </div>
 </div>
 
-<script src="~/js/Pages/Chat.js"></script>*@
+<div class="card_2">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="~/davinci-003-logo.png" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Text-Davinci-003</h5>
+            <p class="card-text">Text-davinci-003 is another variant of OpenAI's language model. It is a powerful model that offers enhanced text generation capabilities. It can generate longer and more detailed responses and is suitable for a wider range of use cases, including drafting articles, brainstorming, and natural language understanding.</p>
+            <a class="nav-link" asp-area="" asp-controller="Text" asp-action="Index">Click here to try it out!</a>
+        </div>
+    </div>
+</div>
 
+<div class="card_3">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="~/Dall-E logo.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">DALL-E</h5>
+            <p class="card-text">DALL-E is a neural network-based model also developed by OpenAI. It generates images from textual descriptions. By training on a massive dataset, DALL-E can understand textual prompts and create original images that match the given description, even for unconventional or surreal concepts. It showcases the potential of AI in creative applications and has been used to generate unique and imaginative visual outputs.</p>
+            <a class="nav-link" asp-area="" asp-controller="Image" asp-action="Index">Click here to try it out!</a>
+        </div>
+    </div>
+</div>

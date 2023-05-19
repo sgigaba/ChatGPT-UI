@@ -1,9 +1,10 @@
-﻿using ChatGPT_UI.Interface;
-using ChatGPT_UI.Models;
-using System.Net.Http.Headers;
-
-namespace ChatGPT_UI.Services
+﻿namespace ChatGPT_UI.Services
 {
+    using ChatGPT_UI.Interface;
+    using ChatGPT_UI.Models;
+
+    using System.Net.Http.Headers;
+
     public class TextService : ApiService<Texts>, ITextApiService
     {
         private readonly IHttpClientFactory httpClientFactory;
@@ -25,13 +26,13 @@ namespace ChatGPT_UI.Services
                 RequestUri = new Uri("https://api.openai.com/v1/completions"),
                 Headers =
                 {
-                    { "Authorization", "Bearer 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" },
+                    { "Authorization", "APIKEY" },
                 },
 
                 Content = new StringContent("{\n" +
                     "\"model\": \"text-davinci-003\",\n" +
                     "\"prompt\": \""+prompt+"\",\n" +
-                    "\"max_tokens\": 7,\n" +
+                    "\"max_tokens\": 60,\n" +
                     "\"temperature\": 0,\n" +
                     "\"top_p\": 1,\n" +
                     "\"n\": 1,\n" +
@@ -58,7 +59,5 @@ namespace ChatGPT_UI.Services
 
             return model;
         }
-
-
     }
 }

@@ -1,6 +1,5 @@
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using ChatGPT_UI;
 using ChatGPT_UI.Services;
@@ -13,6 +12,7 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         var configBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
         var configuration = configBuilder.Build();
 
         // Add services to the container.
@@ -51,10 +51,6 @@ internal class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=ChatWebAPI}/{action=Index}/{id?}");
-
-/*        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=ChatWebAPI}/{action=Index}/{id?}");*/
 
         app.Run();
     }
