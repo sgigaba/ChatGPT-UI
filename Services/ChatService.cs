@@ -29,7 +29,7 @@
                 RequestUri = new Uri("https://api.openai.com/v1/chat/completions"),
                 Headers =
                 {
-                    { "Authorization", "APIKEY" },
+                    { "Authorization", "Bearer OPENAIKEY" },
                 },
 
                 Content = new StringContent("{\n" +

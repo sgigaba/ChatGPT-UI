@@ -33,7 +33,7 @@ namespace ChatGPT_UI.Services
                 RequestUri = new Uri("https://api.openai.com/v1/images/generations"),
                 Headers =
                 {
-                    { "Authorization", "APIKEY" },
+                    { "Authorization", "Bearer OPENAIKEY" },
                 },
 
                 Content = new StringContent("{\n" +
